@@ -3,10 +3,25 @@
 $possible_chars = "q w e r t y u i o p a s d f g h j k l z x c v b n m 1 2 3 4 5 6 7 8 9 £ % & @ # * . , Q W E R T Y U I O P A S D F G H J K L Z X C V B N M";
 
 $array_chars = explode(" ", $possible_chars);
+$length_password = 7;
 
-$length_password = $_GET["number"];
+$has_length_password = isset($_GET["number"]);
+if ($has_length_password){
+    $length_password = $_GET["number"];
+};
 
-var_dump($length_password);
+function generate_password($length_password, $array_chars){
+    $password = "";
+    for($i = 0; $i < $length_password; ++$i){
+        
+        $casual_number = rand(0, 68);
+        $char = $array_chars[$casual_number];
+        $password = $password.$char;
+    }
+
+    return $password;
+};
+
 
 
 ?>
@@ -30,9 +45,12 @@ var_dump($length_password);
             <div class="card-body">
                 <form method="GET">
                     <label for="number">Inserire il numero di caratteri della password (7-15)</label>
-                    <input type="number" name="number" id="number" value="7" min="7" max="15" step="1">
+                    <input type="number" name="number" id="number" value="<?php echo $length_password; ?>" min="7" max="15" step="1">
                     <button type="submit" class="btn btn-primary">Genera</button>
                 </form>
+                <?php if($has_length_password): ?>
+                <h3><?php echo generate_password($length_password, $array_chars);?></h3>
+                <?php endif; ?>
             </div>
         </div>
     </div>
